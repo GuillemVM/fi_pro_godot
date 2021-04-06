@@ -18,11 +18,11 @@ onready var _animate_player = $pers
 onready var sprite = $pers
 
 func _ready():
-	pass
+	$sword_attack/sword_left.disabled = true
+	$sword_attack/sword_right.disabled = true
 
 func _physics_process(delta):
 	if death == false:
-		$sword_attack/CollisionShape2D.disabled
 		hp += 1 * delta
 		hp = clamp(hp, 0, max_hp)
 		if is_on_floor():
@@ -39,19 +39,25 @@ func _physics_process(delta):
 				if grounded == true && attacking == false:
 					_animate_player.play("idle")
 		if  moviment.x < 0:
-			direction = - 1
+			direction = -1
 			if grounded == true:
-					_animate_player.play("run")
+				sprite.flip_h = true
+				_animate_player.play("run")
 		elif moviment.x > 0:
 			direction = 1
+			$main_hitbox/hitbox_left.disabled = false
+			$main_hitbox/hitbox_right.disabled = true
 			if grounded == true:
+				sprite.flip_h = false
 				_animate_player.play("run");
 		else:
 			false
-		if direction == 1:
-			scale.x = 1
-		elif direction == -1:
-			scale.x = -1
+		if direction == -1:
+			$main_hitbox/hitbox_left.disabled = false
+			$main_hitbox/hitbox_right.disabled = true
+		elif direction == 1:
+			$main_hitbox/hitbox_left.disabled = true
+			$main_hitbox/hitbox_right.disabled = false
 		if grounded == true && Input.is_action_pressed("ui_up") && attacking == false:
 			moviment.y = jump
 		elif grounded == false && moviment.y < 0:
@@ -59,7 +65,12 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("ui_basic_attack"):
 			attacking = true
 			_animate_player.play("attack")
-			$sword_attack/CollisionShape2D.disabled = false
+			if direction == -1:
+				$sword_attack/sword_left.disabled = false
+				$sword_attack/sword_right.disabled = true
+			elif direction == 1:
+				$sword_attack/sword_left.disabled = true
+				$sword_attack/sword_right.disabled = false
 		moviment = move_and_slide(moviment, up)
 	elif death == true:
 		_animate_player.play("death")
@@ -70,7 +81,10 @@ func hp():
 		
 func _on_pers_animation_finished():
 	if $pers.animation == "attack":
-		$sword_attack/CollisionShape2D.disabled = true
+		if direction == -1:
+			$sword_attack/sword_left.disabled = true
+		elif direction == 1:
+			$sword_attack/sword_right.disabled = true
 		attacking = false
 	if $pers.animation == "death":
 		queue_free()

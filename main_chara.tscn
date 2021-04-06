@@ -67,9 +67,14 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 32 ), ExtResource( 28 ) ],
+"frames": [ ExtResource( 68 ), ExtResource( 67 ), ExtResource( 3 ), ExtResource( 24 ), ExtResource( 19 ), ExtResource( 35 ), ExtResource( 6 ), ExtResource( 33 ), ExtResource( 30 ), ExtResource( 8 ), ExtResource( 42 ), ExtResource( 43 ) ],
 "loop": true,
-"name": "fall",
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 48 ), ExtResource( 51 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "jump",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 20 ), ExtResource( 29 ), ExtResource( 61 ), ExtResource( 21 ), ExtResource( 49 ), ExtResource( 56 ), ExtResource( 50 ), ExtResource( 52 ), ExtResource( 22 ) ],
@@ -77,9 +82,9 @@ animations = [ {
 "name": "death",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 68 ), ExtResource( 67 ), ExtResource( 3 ), ExtResource( 24 ), ExtResource( 19 ), ExtResource( 35 ), ExtResource( 6 ), ExtResource( 33 ), ExtResource( 30 ), ExtResource( 8 ), ExtResource( 42 ), ExtResource( 43 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 32 ), ExtResource( 28 ) ],
 "loop": true,
-"name": "attack",
+"name": "fall",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 36 ), ExtResource( 18 ), ExtResource( 9 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 62 ), ExtResource( 5 ), ExtResource( 46 ), ExtResource( 37 ), ExtResource( 47 ) ],
@@ -90,11 +95,6 @@ animations = [ {
 "frames": [ ExtResource( 55 ), ExtResource( 57 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 58 ), ExtResource( 41 ), ExtResource( 59 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "run",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 48 ), ExtResource( 51 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "jump",
 "speed": 5.0
 } ]
 
@@ -117,6 +117,7 @@ position = Vector2( 104, 16 )
 scale = Vector2( 1.0235, 1 )
 frames = SubResource( 2 )
 animation = "attack"
+frame = 9
 playing = true
 script = ExtResource( 69 )
 
@@ -127,13 +128,21 @@ current = true
 "sword",
 ]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="sword_attack"]
+[node name="sword_right" type="CollisionShape2D" parent="sword_attack"]
+position = Vector2( 120, 18 )
+shape = SubResource( 3 )
+
+[node name="sword_left" type="CollisionShape2D" parent="sword_attack"]
 position = Vector2( 120, 18 )
 shape = SubResource( 3 )
 
 [node name="main_hitbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="main_hitbox"]
+[node name="hitbox_right" type="CollisionShape2D" parent="main_hitbox"]
+position = Vector2( 95.812, 18 )
+shape = SubResource( 4 )
+
+[node name="hitbox_left" type="CollisionShape2D" parent="main_hitbox"]
 position = Vector2( 95.812, 18 )
 shape = SubResource( 4 )
 [connection signal="animation_finished" from="pers" to="." method="_on_pers_animation_finished"]
