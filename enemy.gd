@@ -16,22 +16,19 @@ onready var sprite = $skel1
 onready var timer = Timer
 
 func _ready():
-	pass
+	$area_final/are_final_left.disabled = true
+	$area_final/are_final_right.disabled = true
 
 func _physics_process(delta):
 	if dead == false && attack == false:
-		scale.x = 1
-		$area_final/CollisionShape2D.disabled = true
 		velocity.x = speed * direction
 		velocity.y += gravity
 		velocity = move_and_slide(velocity, _floor)
 		actual_hp()
 		if direction == 1:
-			scale.x = 1
 			_animated_player.play("walk")
 			sprite.flip_h = false
 		else:
-			scale.x = -1
 			_animated_player.play("walk")
 			sprite.flip_h = true
 		if is_on_wall():
